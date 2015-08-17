@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
         <meta charset="utf-8">
-        <title>Personal Webpage</title>
-        <link rel="stylesheet" type="text/css" href="../main.css">
-		<script src="main.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../CSS%20RESET.css">
+        <link rel="stylesheet" href="../main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <header class="header">
-            <ul class="nav">
-                <li class="nav_list">
-                    <a class="nav_url" href="../index.html">Main</a>
-                </li><li class="nav_list">
-                    <a class="nav_url" id="nav_1" href="faculty.html">Faculty</a>
-                </li><li class="nav_list">
-                    <a class="nav_url" href="../personal_life/personal_life.html">Personal life</a>
-                </li><li class="nav_list">
-                    <a class="nav_url" href="../work/work.html">Work</a>
-                </li><li class="nav_list">
-                    <a class="nav_url" href="../contact/contact.html">Contact</a>
-                </li>
-            </ul>
-        </header>
-        <main class="container">
-			<div id="faculty_description">
-				<img id="etfos1" src="http://www.etfos.unios.hr/preuzmi/logo3.jpg">
-				<p>I enrolled in a computer engineering undergraduate programme in 2011 from which I successfully graduated in September, 2014. 
-					The Faculty curriculum consists of lectures, auditory, laboratory, and design exercises.
-					<br><br>Some of the classes that I have attended are Programming I & II, Object Oriented Programming, Algorithms and Data Structures,
-					Digital Electronics, Information Theory, Computer Architecture, etc.
-					<br><br>Through the undergraduate programme I had a chance to learn certain programming languages, more specifically C, C++, and C#. 
-					Also, I had an opportunity to work with Field Programmable Gate Array - Spartan 3 and Pegasus, which uses VHDL - description language 
-					for circuit design.
-					<br><br>As of February 2015 I am officially a Bachelor of Computer Engineering. Currently I am attending the graduate programme
-					and working on my Masters Degree in computer engineering.
-				</p>
-				<img id="etfos2" src="http://www.etfos.unios.hr/new-images/zakom-sve.png">
-				<p>With the start of the first semester classes became more interesting. Once again I had to work with <abbr title="Field Programmable Gate Array">FPGA</abbr>
-					as part of the laboratory exercises for Computer System Design class.<br><br>The most memorable class from the first semester was, 
-					without a doubt, Discrete Mathematics - which introduced a refreshing, fun side of mathematics to me.<br><br>As for the second 
-					semester, which I am currently in, most classes I attend are very interesting and a lot of fun. Internet Programming peaked my 
-					interest in front-end development and Data Visualization introduced me to interesting new methods of displaying data.
-				</p>
-			</div>
-        </main>
-		<footer>
-			<p>Dominik Babic &#169; 2015</p>
-		</footer>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav nav-justified">
+                        <li><a class="nav_link" href="../index.html">Main</a></li>
+                        <li><a class="nav_link current" href="faculty.html">Faculty</a></li>
+                        <li><a class="nav_link" href="../MyWork/mywork.html">My Work</a></li>
+                        <li><a class="nav_link" href="../Contact/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container fill" id="content_holder_faculty">
+            <a href="http://www.etfos.unios.hr" target="_blank">
+                <img id="f_img" src="http://www.etfos.unios.hr/preuzmi/logo3.jpg">
+            </a>
+            <p>I enrolled in a computer engineering undergraduate programme in 2011 from which I successfully graduated in September, 2014. 
+                The Faculty curriculum consists of lectures, auditory, laboratory, and design exercises.
+                <br><br>Some of the classes that I have attended are Programming I &amp; II, Object Oriented Programming, Algorithms and Data Structures,
+                Digital Electronics, Information Theory, Computer Architecture, etc.
+                <br><br>Through the undergraduate programme I had a chance to learn programming languages such as C, C++, and C#. 
+                Also, I had an opportunity to work with Field Programmable Gate Array - Spartan 3 and Pegasus, which uses <abbr title="Very High Speed Integrated Circuit Hardware Description Language">VHDL</abbr> - description language 
+                for circuit design.
+                <br><br>As of February 2015 I am officially a Bachelor of Computer Engineering. Currently I am attending the graduate programme
+                and working on my Masters Degree in computer engineering.
+            </p>
+        </div>
+        
+        <div class="container-fluid footer">
+            <p>Dominik Babic &copy 2015</p>
+        </div>
+        
     </body>
 </html>
