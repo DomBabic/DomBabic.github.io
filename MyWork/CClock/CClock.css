@@ -71,12 +71,12 @@ body
 }
 #button_white
 {
-    top: 27%;
+    top: 24.5%;
     left: 31%;
 }
 #button_black
 {
-    top: 27%;
+    top: 24.5%;
     right: 31%;
 }
 @-webkit-keyframes button_update
