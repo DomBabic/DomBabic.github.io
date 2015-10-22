@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chess Clock</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Dominik Babić">
+        <link rel="stylesheet" type="text/css" href="CClock.css">
+    </head>
+    <body>
+        <button type="button" id="button_white" onclick="update_black()"></button>
+        <button type="button" id="button_black" onclick="update_white()"></button>
+        <div id="container">
+            <p class="description left">White</p>
+            <p class="turn center">Turn</p>
+            <p class="description right">Black</p><br>
+            <p class="left" id="time_white"></p>
+            <p class="center" id="turn_number"></p>
+            <p class="right" id="time_black"></p>
+        </div>
+        <div id="options">
+            <p>Game time:</p>
+            <textarea rows="1" cols="3" id="game_time" class="input_field"></textarea>
+            <p>Turn time bonus:</p>
+            <textarea rows="1" cols="3" id="turn_bonus" class="input_field"></textarea><br><br>
+            <button type="button" id="settings_button" onclick="set_time()">Set</button>
+        </div>
+        <script type="text/javascript" src="CClock.js"></script>
+    </body>
+</html>
