@@ -19,6 +19,8 @@ function update_white()
 {
     i = i + 1;
     document.getElementById("button_black").style.WebkitAnimation = "button_update 1s forwards";
+    document.getElementById("button_white").disabled = false;
+    document.getElementById("button_black").disabled = true;
     position_black = "down";
     sb = sb - turn_bonus.value;
     if(position_white === "down")
@@ -37,6 +39,8 @@ function update_black()
 {
     i = i + 1;
     document.getElementById("button_white").style.WebkitAnimation = "button_update 1s forwards";
+    document.getElementById("button_white").disabled = true;
+    document.getElementById("button_black").disabled = false;
     position_white = "down";
     sw = sw - turn_bonus.value;
     if(position_black === "down")
@@ -119,6 +123,8 @@ function set_time()
     {
         position_white = "up";
         position_black = "up";
+        document.getElementById("button_white").disabled = false;
+        document.getElementById("button_black").disabled = false;
         document.getElementById("button_white").style.WebkitAnimation = "button_update_reverse 1s forwards";
         document.getElementById("button_black").style.WebkitAnimation = "button_update_reverse 1s forwards";
     }
