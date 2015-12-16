@@ -197,3 +197,11 @@ ul.nav > li > a:hover
 {
     margin: 20px;
 }
+
+@media (max-height: 600px)
+{
+	#content_holder
+	{
+	    padding: 5% 0% 0% 0%;
+	}
+}
