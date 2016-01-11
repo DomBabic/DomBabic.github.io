@@ -692,7 +692,8 @@
 				Svojstvo zoomiranja je preuzeto sa URL-a http://bl.ocks.org/mbostock/6123708
 				Krajnji prikaz podataka je rezultat testiranja novih svojstava i uređivanja izvornog koda.
 			*/
-			
+            
+			var deletion;
 			var diameter = 1500;
 			var i = 0;
 			var duration = 550;
@@ -764,6 +765,7 @@
                     d3.select("a#html_url").remove();
                     d3.select("br").remove();
                     d3.select("img#img_container").remove();
+                    clearTimeout(deletion);
                     //Generate new content
                     div.select("p#sci_title").append("text").text(d.name);
                     div.select("p#sci_description").append("text").text(d.description);
@@ -776,7 +778,7 @@
 					d3.select(this).select("text").attr("fill", "Black").classed("active", true);
 					d3.select(this).select("text").attr("font-size", "10px");
                     //Remove previous content
-                    setTimeout(function() {
+                    deletion = setTimeout(function() {
                         d3.select("p#sci_title").select("text").remove();
                         d3.select("p#sci_description").select("text").remove();
                         d3.select("a#html_url").remove();
