@@ -30,30 +30,21 @@
 				background-color: #FAFAFA;
 			}
 			#container {
-				width: 80%;
+				width: 100%;
 				height: 1030px;
 				float: left;
 				margin: 0%;
 				padding: 0%;
 				display: block;
 			}
-			#legend {
-				display: block;
-				padding: 0px;
-				width: 20%;
-				height: 1030px;
-				float: right;
-				border-radius: 5px;
-				overflow: hidden;
-				background-color: #F5F5F5;
-			}
 			#sci_title {
-				margin: 20px;
+				margin: 18px;
 			}
 			#sci_description {
-				margin: 20px;
+				margin: 18px;
 			}
 			#html_url {
+                margin: 18px;
 				color: #00477F;
 			}
 			#html_url:hover {
@@ -79,9 +70,10 @@
 				stroke: #007F09 !important;
 				stroke-width: 1.5px !important;
 			}
-			img {
-				padding: 10px;
-				width: 95%;
+			img#img_container {
+				margin-left: 18px;
+                margin-top: 18px;
+				width: 50%;
 				height: auto;
 				border-radius: 5px;
 			}
@@ -106,6 +98,14 @@
 				top: 35px;
 				right: 35%;
 			}
+            .tooltip
+            {
+                background-color: gainsboro;
+                width: 30%;
+                height: auto;
+                border-radius: 5px;
+                border: 1px solid black;
+            }
         </style>
     </head>
     <body>
@@ -114,11 +114,6 @@
 			<p>by Dominik Babić</p>
 		</div>
 		<div id="container"></div> 							<!-- Korišten za prikaz SVG-a -->
-		<div id="legend">									<!-- Korišten za prikaz naziva znanosti, opisa iste, te pripadajuće slike -->
-			<h2 id="sci_title"></h3>
-			<p id="sci_description"></p>
-			<div id="img_container"></div>
-		</div>
         <script src="http://d3js.org/d3.v3.min.js"></script>
 		<script>
  
@@ -722,7 +717,16 @@
             .attr("height", diameter - 470)
 			.call(zoom)
             .append("g")
-            .attr("transform", "translate(" + (diameter / 2) + "," + (diameter / 3) + ")");
+            .attr("transform", "translate(" + window.innerWidth/2 + "," + window.innerHeight/2 + ")");
+            
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+	            .style("z-index", "10")
+	            .style("visibility", "hidden");
+            
+            div.append("p").attr("id", "sci_title");
+            div.append("p").attr("id", "sci_description");
 			
 			var root = treeData;
 			root.x0 = diameter / 2;
@@ -748,19 +752,37 @@
 				.on("click",click)
 				.on("mouseover", function(d){ 					
 					d3.select(this).select("text").attr("fill", "Red");
-					d3.select(this).select("text").attr("font-size", "16px");
-					d3.select("#sci_title").select("text").remove();
-					d3.select("#sci_description").select("text").remove();
-					d3.select("#img_container").select("img").remove();
-					d3.select("#sci_description").select("#html_url").remove();
-					d3.select("#sci_title").append("text").text(d.name);
-					d3.select("#sci_description").append("text").text(d.description).append("br");
-					d3.select("#sci_description").append("a").attr("id","html_url").attr("href", d.url).attr("target","_blank").text(d.name);
-					d3.select("#img_container").append("img").attr("src", d.img_src).classed("active", true);
+					d3.select(this).select("text").attr("font-size", "16px");                 
+                    div
+                        .style("visibility", "visible")
+                        .style("left", (d3.event.pageX + 30) + "px")     
+                        .style("top", (d3.event.pageY - 30) + "px");
+                    
+                    //Delete preexisting content if another hover occurs
+                    d3.select("p#sci_title").select("text").remove();
+                    d3.select("p#sci_description").select("text").remove();
+                    d3.select("a#html_url").remove();
+                    d3.select("br").remove();
+                    d3.select("img#img_container").remove();
+                    //Generate new content
+                    div.select("p#sci_title").append("text").text(d.name);
+                    div.select("p#sci_description").append("text").text(d.description);
+                    div.append("a").attr("id", "html_url").attr("href", d.url).text("Follow the link for more!").attr("target", "_blank");
+                    div.append("br").attr("id", "tooltip_break");
+                    div.append("img").attr("id", "img_container");
+                    div.select("img#img_container").attr("src", d.img_src);
 				})
 				.on("mouseout", function(d){
 					d3.select(this).select("text").attr("fill", "Black").classed("active", true);
 					d3.select(this).select("text").attr("font-size", "10px");
+                    //Remove previous content
+                    setTimeout(function() {
+                        d3.select("p#sci_title").select("text").remove();
+                        d3.select("p#sci_description").select("text").remove();
+                        d3.select("a#html_url").remove();
+                        d3.select("br#tooltip_break").remove();
+                        d3.select("img#img_container").remove(); 
+                        d3.select("div.tooltip").style("visibility", "hidden")}, 3000);
 				});
 				
 				nodeEnter.append("circle")
