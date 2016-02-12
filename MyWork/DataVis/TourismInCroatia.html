@@ -1,0 +1,190 @@
+<!doctype HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Dominik Babić">
+        <meta name="keywords" content="Croatia Tourism,Croatia GeoJSON,Tourism">
+        <meta name="description" content="Web project dedicated to listing up tourism locations in Croatia.">
+        <link rel="icon" type="image/png" href="favicon.ico.png">
+        
+        <title>Tourism in Croatia</title>
+        <style>
+            body
+            {
+                overflow: hidden;
+                background-color: aliceblue;
+            }
+            g
+            {
+                pointer-events: auto;
+            }
+            p
+            {
+                color: black;
+                font-size: 5em;
+            }
+            .tooltip
+            {
+                background-color: #068FFF;
+                width: 20%;
+                height: auto;
+                padding: 0% 0%;
+                border: 1px solid #FF9E06;
+            }
+            .tooltip > p
+            {
+                margin: 1% 1%;
+                text-align: center;
+                font-size: 1em;
+                color: white;
+                -webkit-text-stroke-width: 0.1px;
+                -webkit-text-stroke-color: black;
+            }
+            video
+            {
+                width: 90%;
+                height: auto;
+                margin: 0% 5%;
+            }
+            #tooltip_button
+            {
+                margin-left: 50%;
+                margin-top: 1%;
+                margin-bottom: 1%;
+                transform: translate(-50%, 0%);
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                border-radius: 0px;
+                color: #ffffff;
+                font-size: 1em;
+                background: orange;
+                padding: 5px 10px 5px 10px;
+                text-decoration: none;
+                border: 0px;
+            }
+            .grad
+            {
+                fill: #FF9E06;
+            }
+            .copyright > p
+            {
+                position: fixed;
+                z-index: 99;
+                top: 98%;
+                left: 0%;
+                background: #068FFF;
+                color: white;
+                -webkit-text-stroke-width: 0.15px;
+                -webkit-text-stroke-color: black;
+                font-size: 1.5em;
+                width: auto;
+                height: 2.5%;
+                padding: 5px;
+                transform: translate(0%, -100%);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="copyright"><p>Dominik Babić 2016 &copy;</p></div>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        
+        <script>
+            var w = window,
+                d = document,
+                e = d.documentElement,
+                g = d.getElementsByTagName('body')[0],
+                x = w.innerWidth || e.clientWidth || g.clientWidth,
+                y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+            
+            var deletion;
+            var style_holder;
+            
+            var projection = d3.geo.albers()
+                .center([0, 43.98])
+                .rotate([-16, 0])
+                .parallels([40, 50])
+                .scale(8000)
+                .translate([x / 2, y / 2]);
+            
+            var zoom = d3.behavior.zoom()
+                .translate(projection.translate())
+                .scale(projection.scale())
+                .scaleExtent([x, 30 * x])
+                .on("zoom", zoomed);
+            
+            var path = d3.geo.path()
+                .projection(projection);
+
+            var svg = d3.select("body").append("svg")
+                .attr("width", x)
+                .attr("height", y)
+                .attr("id", "karta")
+                .append("g")
+                .call(zoom);
+            
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+	            .style("z-index", "10")
+	            .style("visibility", "hidden");
+            
+            
+            d3.json("CroatiaRegions.json", function(error, json) {
+
+                svg.selectAll(".subunit")
+                    .data(json.features)
+                    .enter()
+                    .append("path")
+                    .attr("d", path)
+                    .attr("class", function(d){ return d.properties.klasa;})
+                    .style("stroke", "white")
+                    .attr("fill", "#0062B2 ")
+                    .on("click", function(d) {
+                        div
+                            .style("visibility", "visible")
+                            .style("left", (d3.event.pageX + 30) + "px")     
+                            .style("top", (d3.event.pageY - 30) + "px");
+                
+                        d3.select("p#region_name").remove();
+                        d3.select("video#player").remove();
+                        d3.select("button#tooltip_button").remove();
+                        div.append("p").attr("id", "region_name");
+                        div.select("p#region_name").text(d.properties.name); /* Koristiti d.properties za dodjeljivanje klase i videa tooltipu! */
+                        div.append("video").attr("id", "player").append("source").attr("src", d.properties.video).attr("type", "video/mp4");
+                        document.getElementById("player").controls = true;
+                        document.getElementById("player").autoplay = true;
+                        document.getElementById("player").volume = 0.2;
+                        div.append("button").attr("type","button").attr("id","tooltip_button").text("Close");
+                        d3.select("button#tooltip_button").attr("onclick","close_clear()");
+                })
+                    .on("mouseover", function(d) {
+                        d3.select(this).transition().duration(150).style("fill", function(d){ if(d.properties.klasa === "grad") { return "#FF3F16"; } else { return "#FF9E06"; }});
+                })
+                    .on("mouseout", function(d) {
+                        d3.select(this).transition().duration(150).style("fill", function(d){ if(d.properties.klasa === "grad") { return "#FF9E06"; } else { return "#0062B2"; }});
+                });
+                
+            });
+            
+            function close_clear(){
+                d3.select("p#region_name").remove(); 
+                d3.select("video#player").remove();
+                d3.select("div.tooltip").style("visibility", "hidden");
+                d3.select("button#tooltip_button").remove();
+            }
+            
+            function updateWindow(){
+                x = w.innerWidth || e.clientWidth || g.clientWidth;
+                y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+                svg.attr("width", x).attr("height", y);
+            }
+            window.onresize = updateWindow;
+            
+            function zoomed() {
+                projection.translate(d3.event.translate).scale(d3.event.scale);
+                svg.selectAll("path").attr("d", path);
+            }
+        </script>
+    </body>
+</html>
