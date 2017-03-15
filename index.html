@@ -33,10 +33,12 @@
             </div>
         </nav>
         
-        <div class="container fill" id="content_holder">
+        <div class="container" id="content_holder">
             <div id="img_container"></div>
             <div id="img_description"><p>Dominik Babic<br>Student - Developer - Designer</p></div>
-            <button class="myButton" id="img_button" onclick="update()">Next</button>
+            <script>
+                setTimeout(function() { update(); }, 1500);
+            </script>
         </div>
         
         <div class="container-fluid footer">
